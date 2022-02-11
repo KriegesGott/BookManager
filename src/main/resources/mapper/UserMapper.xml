@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.xtu.library.dao.UserDao">
+
+	<resultMap id="BaseResultMap" type="edu.xtu.library.entity.User">
+		<id column="id" jdbcType="BIGINT" property="id"/>
+		<result column="name" jdbcType="VARCHAR" property="name"/>
+		<result column="password" jdbcType="VARCHAR" property="password"/>
+		<result column="student_code" jdbcType="VARCHAR" property="studentCode"/>
+		<result column="department" jdbcType="VARCHAR" property="department"/>
+		<result column="role" jdbcType="VARCHAR" property="role"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		`id`, `name`, `passwrod`, `student_code`,
+		`student_code`,`department`, `role`
+	</sql>
+
+
+</mapper>
