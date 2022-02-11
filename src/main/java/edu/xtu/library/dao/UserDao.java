@@ -22,10 +22,10 @@ public interface UserDao {
 	@Select("select * from user where name = #{name}")
 	User selectUserByName(String name);
 
-	@Insert("insert into user (name, password, student_code, department) values (#{user.name}, #{user.password}, #{user.studentCode}, #{user.department})")
+	@Insert("insert into user (name, password, student_code, department, creator, modifier, create_time, update_time) values (#{user.name}, #{user.password}, #{user.studentCode}, #{user.department}, #{user.creator}, #{user.modifier}, #{user.createTime}, #{user.updateTime})")
 	int insertOne(@Param("user") User user);
 
-	@Update("update user set name = #{user.name}, password = #{user.password}, student_code = #{user.studentCode}, department = #{user.department}, role = #{user.role} where id = #{user.id}")
+	@Update("update user set name = #{user.name}, password = #{user.password}, student_code = #{user.studentCode}, department = #{user.department}, role = #{user.role}, modifier = #{user.modifier}, update_time = #{user.updateTime} where id = #{user.id}")
 	int updateById(@Param("user") User user);
 
 	@Results(value = {@Result(column = "student_code", property = "studentCode")})

@@ -1,5 +1,6 @@
 package edu.xtu.library.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,11 +51,16 @@ public class BookService {
 		if (Strings.isBlank(name) || Strings.isBlank(author) || Strings.isBlank(publisher) || Strings.isBlank(type)){
 			throw new ProjectException("输入不能为空");
 		}
+		User user = UserPool.get();
 		Book book = Book.builder()
 				.name(name)
 				.author(author)
 				.publisher(publisher)
 				.type(type)
+				.createTime(new Timestamp(System.currentTimeMillis()))
+				.updateTime(new Timestamp(System.currentTimeMillis()))
+				.creator(user.getName())
+				.modifier(user.getName())
 				.build();
 		int res = bookDao.insertOne(book);
 		if (res != 1){
@@ -74,6 +80,7 @@ public class BookService {
 			Strings.isBlank(type) || Strings.isBlank(state) || Objects.isNull(id)){
 			throw new ProjectException("输入不能为空");
 		}
+		User user = UserPool.get();
 		Book book = Book.builder()
 				.id(id)
 				.name(name)
@@ -81,6 +88,8 @@ public class BookService {
 				.publisher(publisher)
 				.type(type)
 				.state(state)
+				.updateTime(new Timestamp(System.currentTimeMillis()))
+				.modifier(user.getName())
 				.build();
 		int res = bookDao.updateById(book);
 		if (res != 1){

@@ -1,4 +1,5 @@
 package edu.xtu.library.service;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -136,11 +137,16 @@ public class UserService {
 		if (!studentCode.matches("^[0-9]{12}$")){
 			throw new ProjectException("学号格式错误");
 		}
+		User createUser = UserPool.get();
 		user = User.builder()
 				.name(name)
 				.studentCode(studentCode)
 				.department(department)
 				.password(studentCode)
+				.createTime(new Timestamp(System.currentTimeMillis()))
+				.updateTime(new Timestamp(System.currentTimeMillis()))
+				.creator(createUser.getName())
+				.modifier(createUser.getName())
 				.build();
 		int res = userDao.insertOne(user);
 		if (res != 1){
@@ -163,9 +169,12 @@ public class UserService {
 				throw new ProjectException("用户名已存在");
 			}
 		}
+		User adminUser = UserPool.get();
 		user.setName(name);
 		user.setStudentCode(studentCode);
 		user.setDepartment(department);
+		user.setModifier(adminUser.getName());
+		user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		int res = userDao.updateById(user);
 		if (res != 1){
 			throw new ProjectException("数据库错误");
