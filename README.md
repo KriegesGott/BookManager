@@ -1,1 +1,1 @@
-BookManager-master
+springboot + mybatis + mysql
