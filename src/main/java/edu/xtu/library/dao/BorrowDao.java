@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BorrowDao {
 
-	@Insert("insert into borrow (user_id, book_id, start_time, end_time, state) values (#{borrow.userId}, #{borrow.bookId}, #{borrow.startTime}, #{borrow.endTime}, #{borrow.state})")
+	@Insert("insert into borrow (user_id, book_id, start_time, end_time, state, price) values (#{borrow.userId}, #{borrow.bookId}, #{borrow.startTime}, #{borrow.endTime}, #{borrow.state}, #{borrow.price})")
 	int insertOne(@Param("borrow") Borrow borrow);
 
 	@Results(value = {@Result(column = "user_id", property = "userId"),
@@ -56,5 +56,7 @@ public interface BorrowDao {
 
 	@Select("select count(id) from borrow where user_id = #{userId}")
 	int selectCountByUserId(@Param("userId") Long userId);
+
+
 
 }

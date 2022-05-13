@@ -9,6 +9,7 @@ import edu.xtu.library.controller.req.AddBookReq;
 import edu.xtu.library.controller.req.AddUserReq;
 import edu.xtu.library.controller.req.UpdateBookReq;
 import edu.xtu.library.controller.req.UpdateUserReq;
+import edu.xtu.library.controller.vo.UserListVO;
 import edu.xtu.library.entity.Book;
 import edu.xtu.library.service.BookService;
 import org.springframework.stereotype.Controller;
@@ -33,13 +34,18 @@ public class BookController {
 		return new ResultData().success(bookService.list());
 	}
 
+	@GetMapping("/userBookList")
+	public ResultData<List<UserListVO>> userBookList(){
+		return new ResultData().success(bookService.userBookList());
+	}
+
 	@GetMapping("/recommend")
-	public ResultData<List<Book>> recommend() throws ProjectException {
+	public ResultData<List<UserListVO>> recommend() throws ProjectException {
 		return new ResultData().success(bookService.recommend());
 	}
 
 	@GetMapping("/search")
-	public ResultData<List<Book>> search(@RequestParam String text){
+	public ResultData<List<UserListVO>> search(@RequestParam String text){
 		return new ResultData().success(bookService.search(text));
 	}
 

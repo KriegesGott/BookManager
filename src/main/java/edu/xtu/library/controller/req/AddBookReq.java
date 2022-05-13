@@ -7,5 +7,7 @@ public class AddBookReq {
 	private String name;
 	private String author;
 	private String publisher;
-	private String type;
+	private Double price;
+	private String code;
+	private Integer number;
 }

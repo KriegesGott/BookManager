@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserBorrowVO {
 
+	private Long id;
 	private String bookName;
 	private String author;
 	private String publisher;
 	private String startTime;
 	private String endTime;
 	private String state;
+	private Double price;
 }

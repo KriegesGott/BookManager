@@ -36,11 +36,29 @@ public class BorrowController {
 		return ResultData.success();
 	}
 
+	@GetMapping("/revert")
+	public ResultData<String> revert(@RequestParam String borrowId) throws Exception {
+		borrowService.revert(borrowId);
+		return ResultData.success();
+	}
+
+	@GetMapping("/userBorrow")
+	public ResultData<String> userBorrow(@RequestParam String name) throws ProjectException{
+		borrowService.userBorrow(name);
+		return ResultData.success();
+	}
+
 	@GetMapping("/updateState")
 	public ResultData<String> updateState(@RequestParam Long id) throws ProjectException {
 		borrowService.updateState(id);
 		return ResultData.success();
 	}
+
+//	@GetMapping("/userUpdateState")
+//	public ResultData<String> userUpdateState(@RequestParam String name) throws ProjectException {
+//		borrowService.userUpdateState(name);
+//		return ResultData.success();
+//	}
 
 	@GetMapping("/delete")
 	public ResultData<String> delete(@RequestParam Long id) throws ProjectException {
@@ -58,9 +76,9 @@ public class BorrowController {
 		return new ResultData().success(borrowService.list());
 	}
 
-	@GetMapping("/userBorrow")
+	@GetMapping("/userBorrowHistory")
 	public ResultData<List<UserBorrowVO>> userBorrow(){
-		return new ResultData().success(borrowService.userBorrow());
+		return new ResultData().success(borrowService.userBorrowHistory());
 	}
 
 

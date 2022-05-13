@@ -9,4 +9,5 @@ public class UpdateUserReq {
 	private String name;
 	private String studentCode;
 	private String department;
+	private Double price;
 }

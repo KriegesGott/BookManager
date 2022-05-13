@@ -22,6 +22,7 @@ public class BorrowVO {
 	private String startTime;
 	private String endTime;
 	private String state;
+	private Double price;
 
 	public BorrowVO(Borrow borrow){
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -31,5 +32,6 @@ public class BorrowVO {
 		this.startTime = simpleDateFormat.format(new Date(borrow.getStartTime().getTime()));
 		this.endTime = simpleDateFormat.format(new Date(borrow.getEndTime().getTime()));
 		this.state = borrow.getState();
+		this.price = borrow.getPrice();
 	}
 }

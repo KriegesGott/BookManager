@@ -19,4 +19,5 @@ public class Borrow {
 	private Timestamp startTime;
 	private Timestamp endTime;
 	private String state;
+	private Double price;
 }

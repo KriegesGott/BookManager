@@ -20,6 +20,8 @@ public class User {
 	private String studentCode;
 	private String department;
 	private String role;
+	private String mail;
+	private Double price;
 	/**
 	 * 创建人
 	 */

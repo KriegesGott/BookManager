@@ -17,11 +17,13 @@ import edu.xtu.library.controller.req.UpdateUserReq;
 import edu.xtu.library.controller.vo.LoginVO;
 import edu.xtu.library.controller.vo.UserInfoVO;
 import edu.xtu.library.dao.BorrowDao;
+import edu.xtu.library.dao.HistoryDao;
 import edu.xtu.library.dao.UserDao;
 import edu.xtu.library.entity.User;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 @Service
 public class UserService {
@@ -32,6 +34,9 @@ public class UserService {
 	@Resource
 	private BorrowDao borrowDao;
 
+	@Resource
+	private HistoryDao historyDao;
+
 	public LoginVO login(LoginReq req) throws ProjectException {
 		String name = req.getName();
 		String password = req.getPassword();
@@ -40,7 +45,7 @@ public class UserService {
 		}
 
 		User user = userDao.selectUserByName(name);
-		if (Objects.isNull(user) || !password.equals(user.getPassword())){
+		if (Objects.isNull(user) || !(DigestUtils.md5DigestAsHex((password + name).getBytes())).equals(user.getPassword())){
 			throw new ProjectException("用户名或密码错误");
 		}
 		String token = JwtUtils.createJWT(user);
@@ -55,9 +60,14 @@ public class UserService {
 		String password = req.getPassword();
 		String studentCode = req.getStudentCode();
 		String department = req.getDepartment();
-		if (Strings.isBlank(name) || Strings.isBlank(password) || Strings.isBlank(studentCode) || Strings.isBlank(department)){
+		String mail = req.getMail();
+		if (Strings.isBlank(name) || Strings.isBlank(password) || Strings.isBlank(studentCode)
+				|| Strings.isBlank(department) || Strings.isBlank(mail)){
 			throw new ProjectException("输入不能为空");
 		}
+//		if (!mail.matches(" /^([A-Za-z0-9])+@([A-Za-z0-9])+.([A-Za-z]{2,4})$/")){
+//			throw new ProjectException("邮箱格式错误");
+//		}
 		if (!studentCode.matches("^[0-9]{12}$")){
 			throw new ProjectException("学号格式错误");
 		}
@@ -68,9 +78,14 @@ public class UserService {
 
 		User user = User.builder()
 				.name(req.getName())
-				.password(req.getPassword())
+				.password(DigestUtils.md5DigestAsHex((password + name).getBytes()))
 				.department(req.getDepartment())
 				.studentCode(req.getStudentCode())
+				.creator(req.getName())
+				.mail(mail)
+				.modifier(req.getName())
+				.updateTime(new Timestamp(System.currentTimeMillis()))
+				.createTime(new Timestamp(System.currentTimeMillis()))
 				.build();
 		int result = userDao.insertOne(user);
 		if (result != 1){
@@ -173,6 +188,7 @@ public class UserService {
 		user.setName(name);
 		user.setStudentCode(studentCode);
 		user.setDepartment(department);
+		user.setPrice(req.getPrice());
 		user.setModifier(adminUser.getName());
 		user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		int res = userDao.updateById(user);

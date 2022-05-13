@@ -22,10 +22,10 @@ public interface UserDao {
 	@Select("select * from user where name = #{name}")
 	User selectUserByName(String name);
 
-	@Insert("insert into user (name, password, student_code, department, creator, modifier, create_time, update_time) values (#{user.name}, #{user.password}, #{user.studentCode}, #{user.department}, #{user.creator}, #{user.modifier}, #{user.createTime}, #{user.updateTime})")
+	@Insert("insert into user (name, password, student_code, department, creator, modifier, create_time, update_time, mail) values (#{user.name}, #{user.password}, #{user.studentCode}, #{user.department}, #{user.creator}, #{user.modifier}, #{user.createTime}, #{user.updateTime}, #{user.mail})")
 	int insertOne(@Param("user") User user);
 
-	@Update("update user set name = #{user.name}, password = #{user.password}, student_code = #{user.studentCode}, department = #{user.department}, role = #{user.role}, modifier = #{user.modifier}, update_time = #{user.updateTime} where id = #{user.id}")
+	@Update("update user set name = #{user.name}, password = #{user.password}, student_code = #{user.studentCode}, department = #{user.department}, role = #{user.role}, modifier = #{user.modifier}, update_time = #{user.updateTime}, price = #{user.price} where id = #{user.id}")
 	int updateById(@Param("user") User user);
 
 	@Results(value = {@Result(column = "student_code", property = "studentCode")})
@@ -33,9 +33,12 @@ public interface UserDao {
 	List<User> selectUserByText(String text);
 
 	@Results(value = {@Result(column = "student_code", property = "studentCode")})
-	@Select("select id, name, student_code, department from user where role = '用户'")
+	@Select("select id, name, student_code, mail, department, price from user where role = '用户'")
 	List<User> selectAllUser();
 
+	@Results(value = {@Result(column = "student_code", property = "studentCode"),
+					  @Result(column = "create_time", property = "updateTime"),
+					  @Result(column = "update_time", property = "updateTime")})
 	@Select("select * from user where id = #{id}")
 	User selectUserById(Long id);
 

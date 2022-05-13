@@ -9,4 +9,5 @@ public class RegisterReq {
 	private String password;
 	private String studentCode;
 	private String department;
+	private String mail;
 }
